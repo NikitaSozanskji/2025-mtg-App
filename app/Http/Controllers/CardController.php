@@ -29,7 +29,15 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'card_name'=>'required',
+            'mana_cost'=>'required',
+            'type'=>'required',
+            'rarity'=>'required',
+            'rules_text'=>'required',
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+
+        ]);
     }
 
     /**
@@ -45,7 +53,7 @@ class CardController extends Controller
      */
     public function edit(Card $card)
     {
-        //
+        
     }
 
     /**
