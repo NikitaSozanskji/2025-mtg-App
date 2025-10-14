@@ -21,7 +21,7 @@ class CardController extends Controller
      */
     public function create()
     {
-        //
+        return view('cards.create');
     }
 
     /**
@@ -37,7 +37,7 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        //
+        return view('cards.show')->with('card',$card);
     }
 
     /**
