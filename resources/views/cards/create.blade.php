@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">add a Cards</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <x-book-from 
+                        <x-card-form 
                             :action="route('cards.store')"
                             :method="'POST'"
                         />

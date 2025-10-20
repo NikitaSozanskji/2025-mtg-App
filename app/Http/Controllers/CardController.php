@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
 class CardController extends Controller
 {
     /**
@@ -29,6 +31,7 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'card_name'=>'required',
             'mana_cost'=>'required',
@@ -38,6 +41,25 @@ class CardController extends Controller
             'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048'
 
         ]);
+
+
+        if ($request->hasFile('image')){
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images\cards'),$imageName);
+        }
+
+        Card::create([
+            'card_name'=>$request->card_name,
+            'mana_cost'=>$request->mana_cost,
+            'type'=>$request->type,
+            'rarity'=>$request->rarity,
+            'rules_text'=>$request->rules_text,
+            'image'=>$imageName,
+            'created_at'=>now(),
+            'updated_at'=>now()
+        ]);
+
+        return to_route('cards.index')->with('success','Card created successfully');
     }
 
     /**
