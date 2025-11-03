@@ -128,5 +128,5 @@ class CardController extends Controller
         $card->delete();
 
         return redirect()->route('cards.index')->with('success', 'card deleted successfully.');
-    }
+    } 
 }
