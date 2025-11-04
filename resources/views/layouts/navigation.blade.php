@@ -18,9 +18,12 @@
                     <x-nav-link :href="route('cards.index')" :active="request()->routeIs('cards.index')">
                         {{ __('View All Cards') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('cards.create')" :active="request()->routeIs('cards.create')">
-                        {{ __('Create Cards') }}
-                    </x-nav-link>
+
+                    @if(auth()->user()->role ==='admin')
+                        <x-nav-link :href="route('cards.create')" :active="request()->routeIs('cards.create')">
+                            {{ __('Create Cards') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
