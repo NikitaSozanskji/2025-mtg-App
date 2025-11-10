@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\ComentsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,4 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/cards/{card}',[CardController::class,'update'])->name('cards.update');
     Route::delete('/cards/{card}',[CardController::class,'destroy'])->name('cards.destroy');
 
+    Route::resource('coments', ComentsController::class);
+    Route::post('cards/{card}/reviews',[ComentsController::class,'store'])->name('reviews.store');
+
 require __DIR__.'/auth.php';
+
+
