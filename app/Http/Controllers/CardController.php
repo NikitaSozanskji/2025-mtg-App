@@ -67,7 +67,9 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        return view('cards.show')->with('card',$card);
+        $card->load('coments.user');
+        return view('cards.show',compact('card'));
+        // return view('cards.show')->with('card',$card);
     }
 
     /**

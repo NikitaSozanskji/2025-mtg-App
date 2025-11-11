@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coments;
+use App\Models\Card;
 use Illuminate\Http\Request;
 
 class ComentsController extends Controller
@@ -26,9 +27,21 @@ class ComentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Card $card)
     {
-        //
+        $request->validate([
+            'rating'=>'required|integer|min:1|max:5',
+            'comment'=>'nullable|string|max:1000'
+        ]);
+
+        $card->coments()->create([
+            'user_id' => auth()->id(),
+            'rating'=>$request->input('rating'),
+            'comment'=>$request->input('comment'),
+            'card_id'=>$card->id
+        ]);
+
+        return view('cards.show',compact('card'));
     }
 
     /**
@@ -36,7 +49,7 @@ class ComentsController extends Controller
      */
     public function show(Coments $coments)
     {
-        //
+  
     }
 
     /**

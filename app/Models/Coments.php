@@ -9,6 +9,14 @@ class Coments extends Model
 {
     use HasFactory;
 
+    protected $fillable =[
+        'user_id',
+        'comment',
+        'rating',
+        'card_id'
+    ];
+
+
     public function card(){
         return $this->belongsTo(Card::class);
     }
