@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">List of Cards</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
+                    <br>
                         <a href="{{route('cards.show',$card)}}">
                             <x-card-details
                                 :card_name="$card->card_name"
@@ -23,16 +23,16 @@
                             />
                         </a>
 
-
-
+                    <br>
                     <h4 class="font-semibold text-md mt-8">Reviews</h4>
                     @if($card->coments->isEmpty())
                         <p class="text-gray-600">No coments yet.</p>
                     @else
                         <ul class="mt-4 space-y-4">
+                            
                             @foreach($card->coments as $coment)
                                 <li class="bg-gray-100 p-4 rounded-lg">
-                                    <p class="font-semibold">{{ $coments->user->name }} ({{ $coments->created_at->format('M d, Y') }})</p>
+                                    <p class="font-semibold"> {{ $coment->user->name }} ({{ $coment->created_at->format('M, d, Y') }})</p>
                                     <p>Rating: {{ $coment->rating }} / 5</p>
                                     <p>{{ $coment->comment }}</p>
                                 </li>
