@@ -36,6 +36,23 @@
                                     <p>Rating: {{ $coment->rating }} / 5</p>
                                     <p>{{ $coment->comment }}</p>
                                 </li>
+                                @if ($coment->user->is(auth()->user()) || auth()->user()->role === 'admin')
+
+                                    <a href="{{ route('coments.edit', $coment) }}" 
+                                    class="bg-yellow-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                                        {{ __('Edit comment') }}
+                                    </a>
+
+                                    <form method="POST" action="{{ route('coments.destroy', $coment) }}">
+                                        @csrf
+                                        @method('delete')
+                                        <x-danger-button 
+                                            href="{{ route('coments.destroy', $coment) }}"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
+                                            {{ __('Delete comment') }}
+                                        </x-danger-button>
+                                    </form>
+                                @endif
                             @endforeach
                         </ul>
                     @endif
@@ -61,30 +78,30 @@
                     <textarea name="comment" id="comment" rows="3" class="mt-1 block w-full" placeholder="Write your coment here..."></textarea>
                 </div>
 
-                @foreach($card->reviews as $review)
+                <!-- @foreach($card->coments as $coment)
                     <li class="bg-gray-100 p-4 rounded-lg">
-                        <p class="font-semibold">{{ $review->user->name }} ({{ $review->created_at->format('M d, Y') }})</p>
-                        <p>Rating: {{ $review->rating }} / 5</p>
-                        <p>{{ $review->coment }}</p>
-                        @if ($review->user->is(auth()->user()) || auth()->user()->role === 'admin')
+                        <p class="font-semibold">{{ $coment->user->name }} ({{ $coment->created_at->format('M d, Y') }})</p>
+                        <p>Rating: {{ $coment->rating }} / 5</p>
+                        <p>{{ $coment->coment }}</p>
+                        @if ($coment->user->is(auth()->user()) || auth()->user()->role === 'admin')
 
-                            <a href="{{ route('reviews.edit', $review) }}" 
+                            <a href="{{ route('coments.edit', $coment) }}" 
                             class="bg-yellow-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
                                 {{ __('Edit Review') }}
                             </a>
 
-                            <form method="POST" action="{{ route('reviews.destroy', $review) }}">
+                            <form method="POST" action="{{ route('coments.destroy', $coment) }}">
                                 @csrf
                                 @method('delete')
                                 <x-danger-button 
-                                    href="{{ route('reviews.destroy', $review) }}"
+                                    href="{{ route('coments.destroy', $coment) }}"
                                     onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Delete Review') }}
                                 </x-danger-button>
                             </form>
                         @endif
                     </li>
-                @endforeach
+                @endforeach -->
 
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Submit Review

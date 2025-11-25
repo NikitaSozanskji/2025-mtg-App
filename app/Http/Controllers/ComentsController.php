@@ -55,9 +55,15 @@ class ComentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Coments $coments)
+    public function edit(Coments $coment)
     {
-        //
+            // // Check if user is the owner or an admin
+            if (auth()->user()->id != $coment->user_id && auth()->user()->role !== 'admin') {
+                return redirect()->route('card.index')->with('error', 'Access denied.');
+            }
+
+            // I am passing the book and the comment object to the view, as they are both needed
+            return view('coments.edit', compact('coment'));
     }
 
     /**
@@ -65,7 +71,10 @@ class ComentsController extends Controller
      */
     public function update(Request $request, Coments $coments)
     {
-        //
+         $coments->update($request->only(['rating', 'comment']));
+
+        // once it's updated in the DB, redirect somewhere that makes sense for your application
+        return redirect()->route('cards.show', $coments->card_id)->with('success', 'coments updated successfully.');
     }
 
     /**
