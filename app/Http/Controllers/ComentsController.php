@@ -69,19 +69,22 @@ class ComentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Coments $coments)
+    public function update(Request $request, Coments $coment)
     {
-         $coments->update($request->only(['rating', 'comment']));
+         $coment->update($request->only(['rating', 'comment']));
 
         // once it's updated in the DB, redirect somewhere that makes sense for your application
-        return redirect()->route('cards.show', $coments->card_id)->with('success', 'coments updated successfully.');
+        return redirect()->route('cards.show', $coment->card_id)->with('success', 'coments updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Coments $coments)
+    public function destroy(Coments $coment)
     {
-        //
+        $coment->with('comment',$coment);
+        $coment->delete();
+
+        return redirect()->route('cards.show', $coment->card_id)->with('success', 'coments updated successfully.');
     }
 }

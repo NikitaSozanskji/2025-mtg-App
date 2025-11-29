@@ -26,8 +26,8 @@
         <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
         <input
             type="text"
-            name="coment"
-            id="coment"
+            name="comment"
+            id="comment"
             value="{{ old('comment', $coment->comment ?? '') }}"
             required
             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
