@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
+use App\Models\Card;
 use Illuminate\Http\Request;
 
 class ArtistController extends Controller
@@ -26,7 +27,7 @@ class ArtistController extends Controller
             return redirect()->route('artists.index')->with('error', 'Access denied.');
         }
 
-        $books = Card::all();
+        $cards = Card::all();
         return view('artists.create', compact('artists'));
 
     }
