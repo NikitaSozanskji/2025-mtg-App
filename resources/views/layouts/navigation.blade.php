@@ -23,6 +23,10 @@
                         <x-nav-link :href="route('cards.create')" :active="request()->routeIs('cards.create')">
                             {{ __('Create Cards') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('artists.create')" :active="request()->routeIs('artists.create')">
+                            {{ __('Create New Artist') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>

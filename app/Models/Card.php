@@ -23,4 +23,8 @@ class Card extends Model
     public function coments(){
         return $this->hasMany(Coments::class);
     }
+
+    public function artist(){
+        return $this->belongsToMany(Artist::class);
+    }
 }

@@ -74,7 +74,7 @@ class ComentsController extends Controller
          $coment->update($request->only(['rating', 'comment']));
 
         // once it's updated in the DB, redirect somewhere that makes sense for your application
-        return redirect()->route('cards.show', $coment->card_id)->with('success', 'coments updated successfully.');
+        return redirect()->route('cards.show', $coment->card_id)->with('success', 'coment updated successfully.');
     }
 
     /**

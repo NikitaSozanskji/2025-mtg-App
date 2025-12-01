@@ -12,7 +12,9 @@ class ArtistController extends Controller
      */
     public function index()
     {
-        //
+        
+        $artists = Artist::with('cards')->get();
+        return view('artists.index',compact('artists'));
     }
 
     /**
@@ -20,7 +22,13 @@ class ArtistController extends Controller
      */
     public function create()
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('artists.index')->with('error', 'Access denied.');
+        }
+
+        $books = Card::all();
+        return view('artists.create', compact('artists'));
+
     }
 
     /**
@@ -28,7 +36,33 @@ class ArtistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+        return redirect()->route('artists.index')->with('error', 'Access denied.');
+        }
+
+        $validated = $request->validate([
+            'name'  => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048',
+            'bio'   => 'nullable|string|max:1000',
+            'cards' => 'array',
+        ]);
+
+        if ($request->hasFile('image')) {
+
+            $imageName = time().'.'.$request->image->extension();
+
+            $request->image->move(public_path('images/artists'), $imageName);
+
+            $validated['image'] = $imageName;
+        }
+
+        $author = Author::create($validated);
+
+        if ($request->has('cards')) {
+            $author->cards()->attach($request->cards);
+        }
+
+        return redirect()->route('artists.index')->with('success', 'Author created successfully.');
     }
 
     /**
@@ -36,7 +70,9 @@ class ArtistController extends Controller
      */
     public function show(Artist $artist)
     {
-        //
+        $artist->load('cards');
+        return (view('artists.show', compact('artist')));
+
     }
 
     /**
@@ -44,7 +80,12 @@ class ArtistController extends Controller
      */
     public function edit(Artist $artist)
     {
-        //
+
+        $cards = Card::all();
+        $artist_card = $artist->cards->pluck('id')->toArray(); 
+
+        return view('artists.edit', compact('author', 'cards', 'artist_card'));
+
     }
 
     /**
@@ -52,7 +93,21 @@ class ArtistController extends Controller
      */
     public function update(Request $request, Artist $artist)
     {
-        //
+        $validated = $request->validate([
+            'name'  => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048',
+            'bio'   => 'nullable|string|max:1000',
+            'cards' => 'array', 
+        ]);
+
+        $artist->update($validated);
+
+        if ($request->has('cards')) {
+            $artist->cards()->sync($request->cards);
+        }
+
+        return redirect()->route('artists.index')->with('success', 'artist updated successfully.');
+
     }
 
     /**
@@ -60,6 +115,10 @@ class ArtistController extends Controller
      */
     public function destroy(Artist $artist)
     {
-        //
+        $artist->cards()->detach(); 
+        $artist->delete();
+
+        return redirect()->route('artists.index')->with('success', 'Artist deleted successfully.');
+
     }
 }

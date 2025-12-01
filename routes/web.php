@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ComentsController;
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('coments', ComentsController::class);
     Route::post('cards/{card}/coments',[ComentsController::class,'store'])->name('cards.coments.store');
 
-
+    Route::resource('artists', ArtistController::class)->middleware('auth');
     
 require __DIR__.'/auth.php';
 

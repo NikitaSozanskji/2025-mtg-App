@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Artist;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
@@ -16,7 +17,7 @@ class CardSeeder extends Seeder
     {
         $currentTimestamp = Carbon::now();
 
-        Card::insert([
+        $cards=[
             [
                 'card_name'=>'Rampant Growth',
                 'mana_cost'=>'1{G}',
@@ -121,6 +122,19 @@ Whenever a player casts a noncreature spell, put a collection counter on this en
             //     'created_at'=>$currentTimestamp,
             //     'updated_at'=>$currentTimestamp
             // ]
-        ]);
+        ];
+
+
+        foreach ($cards as $cardData){
+            // insert the book into the book table
+            $card = Card::create(array_merge($cardData, [
+                'created_at' => $currentTimestamp,
+                'updated_at' => $currentTimestamp
+            ]));
+
+
+            $artists = Artist::inRandomOrder()->take(2)->pluck('id');
+            $card->artist()->attach($artists);
+        }
     }
 }
